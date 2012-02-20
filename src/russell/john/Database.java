@@ -1,5 +1,10 @@
 package russell.john;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,7 +43,8 @@ public class Database
 
 	/**
 	 * Creates a new database instance, creates a connection to the database.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 */
 	public Database(String cs, String user, String pass) throws SQLException
 	{
@@ -227,6 +233,59 @@ public class Database
 			log.severe(e.getMessage());
 		}
 
+	}
+
+	/**
+	 * Creates the database
+	 * @params The filepath of the database schema
+	 * @throws SQLException 
+	 */
+
+	public void createSchema(String filepath) throws SQLException
+	{
+		String query = null;
+		File file = new File(filepath);
+		StringBuffer contents = new StringBuffer();
+		BufferedReader reader = null;
+
+		try
+		{
+			reader = new BufferedReader(new FileReader(file));
+			String text = null;
+
+			// repeat until all lines is read
+			while ((text = reader.readLine()) != null)
+			{
+				contents.append(text).append(System.getProperty("line.separator"));
+			}
+		} 
+		
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		} 
+		
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		} 
+		
+		finally
+		{
+			try
+			{
+				if (reader != null)
+				{
+					reader.close();
+				}
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		query = contents.toString();
+		connection.createStatement().execute(query);	
 	}
 
 	/**

@@ -1,0 +1,118 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE SCHEMA IF NOT EXISTS `Bitcoin` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `Bitcoin` ;
+
+-- -----------------------------------------------------
+-- Table `Bitcoin`.`Block`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `Bitcoin`.`Block` (
+  `hash` VARCHAR(64) NOT NULL ,
+  `version` INT NULL ,
+  `prev_block` VARCHAR(64) NULL ,
+  `mrkl_root` VARCHAR(64) NULL ,
+  `time` DATETIME NULL ,
+  `bits` BIGINT NULL ,
+  `nonce` BIGINT NULL ,
+  `n_tx` INT NULL ,
+  `size` BIGINT NULL ,
+  PRIMARY KEY (`hash`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Bitcoin`.`Transaction`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `Bitcoin`.`Transaction` (
+  `hash` VARCHAR(64) NOT NULL ,
+  `version` INT NULL ,
+  `vin_sz` INT NULL ,
+  `vout_sz` INT NULL ,
+  `lock_time` INT NULL ,
+  `size` BIGINT NULL ,
+  `Block_hash` VARCHAR(64) NOT NULL ,
+  PRIMARY KEY (`hash`) ,
+  INDEX `fk_Transaction_Block` (`Block_hash` ASC) ,
+  CONSTRAINT `fk_Transaction_Block`
+    FOREIGN KEY (`Block_hash` )
+    REFERENCES `Bitcoin`.`Block` (`hash` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Bitcoin`.`Incoming`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `Bitcoin`.`Incoming` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `prev_out` VARCHAR(64) NULL ,
+  `n` BIGINT(64) NULL ,
+  `scriptSig` VARCHAR(600) NULL ,
+  `coinbase` VARCHAR(300) NULL ,
+  `Transaction_hash` VARCHAR(64) NOT NULL ,
+  INDEX `fk_Incoming_Transaction1` (`Transaction_hash` ASC) ,
+  PRIMARY KEY (`id`) ,
+  INDEX `prev_out_index` (`prev_out` ASC) ,
+  CONSTRAINT `fk_Incoming_Transaction1`
+    FOREIGN KEY (`Transaction_hash` )
+    REFERENCES `Bitcoin`.`Transaction` (`hash` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Bitcoin`.`Outgoing`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `Bitcoin`.`Outgoing` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `scriptPubKey` VARCHAR(150) NULL ,
+  `n` INT NULL ,
+  `value` DOUBLE NULL ,
+  `Transaction_hash` VARCHAR(64) NOT NULL ,
+  INDEX `fk_Outgoing_Transaction1` (`Transaction_hash` ASC) ,
+  PRIMARY KEY (`id`) ,
+  CONSTRAINT `fk_Outgoing_Transaction1`
+    FOREIGN KEY (`Transaction_hash` )
+    REFERENCES `Bitcoin`.`Transaction` (`hash` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Bitcoin`.`Market`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `Bitcoin`.`Market` (
+  `symbol` VARCHAR(15) NOT NULL ,
+  `name` VARCHAR(45) NULL ,
+  PRIMARY KEY (`symbol`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Bitcoin`.`Trade`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `Bitcoin`.`Trade` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `time` DATETIME NULL ,
+  `price` DOUBLE NULL ,
+  `amount` DOUBLE NULL ,
+  `Market_symbol` VARCHAR(15) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_Trade_Market1` (`Market_symbol` ASC) ,
+  CONSTRAINT `fk_Trade_Market1`
+    FOREIGN KEY (`Market_symbol` )
+    REFERENCES `Bitcoin`.`Market` (`symbol` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

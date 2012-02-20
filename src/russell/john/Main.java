@@ -12,16 +12,18 @@ public class Main
 	 *            -b: fetches the blockchain -i: iterates through the entire
 	 *            blockchain. adding missing links -c: only adds the most recent
 	 *            blocks, stopping once the first existing link is found
-	 *            (DEFAULT BEHAVIOR) -h: fetches historical market data
+	 *            -h: fetches historical market data -b: builds database
 	 */
 	public static void main(String[] args)
 	{
 		String jdbc = null;
 		String user = null;
 		String pass = null;
+		String schemaFilePath = null;
 		boolean initialBlock = false;
 		boolean continueBlock = false;
 		boolean continueMarket = false;
+		boolean buildDatabase = false;
 
 		// Error checking
 		if (args.length < 1)
@@ -34,8 +36,9 @@ public class Main
 		jdbc = args[0];
 		user = args[1];
 		pass = args[2];
+		schemaFilePath = args[3];
 		
-		for (int i = 3; i < args.length; i++)
+		for (int i = 4; i < args.length; i++)
 		{
 			try
 			{
@@ -45,6 +48,8 @@ public class Main
 					continueBlock = true;
 				if (args[i].contains("-h"))
 					continueMarket = true;
+				if (args[i].contains("-b"))
+					buildDatabase = true;
 			}
 
 			catch (Exception e)
@@ -110,6 +115,22 @@ public class Main
 			log.info("Trade update completed");
 		}
 		
+		else if (buildDatabase)
+		{
+			log.info("Building the database");
+			try
+			{
+				db.createSchema(schemaFilePath);
+			} 
+			
+			catch (SQLException e)
+			{
+				log.severe(e.getMessage());
+				errorMessage();
+				return;
+			}				
+		}
+		
 		else
 		{
 			errorMessage();
@@ -118,9 +139,10 @@ public class Main
 
 	private static void errorMessage()
 	{
-		log.severe("Usage:\n" + "[jdbc], [user], [pass], params..."
+		log.severe("Usage:\n" + "[jdbc], [user], [pass], [schema_filepath (optional)] params..."
 				+ "\t -i: iterates through the entire blockchain. adding missing links along the way\n"
 				+ "\t -c: only adds the most recent blocks, stopping once the first existing link is found\n"
-				+ "-h: fetches historical market data, stopping once the first existing link is found");
+				+ "-h: fetches historical market data, stopping once the first existing link is found\n" +
+				"-b: builds the database schema. Must pass schema filepath to work.");
 	}
 }
