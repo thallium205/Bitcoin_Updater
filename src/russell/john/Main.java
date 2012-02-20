@@ -120,7 +120,7 @@ public class Main
 	{
 		log.severe("Usage:\n" + "[jdbc], [user], [pass], params..."
 				+ "\t -i: iterates through the entire blockchain. adding missing links along the way\n"
-				+ "\t -c: only adds the most recent blocks, stopping once the first existing link is found (default) \n"
+				+ "\t -c: only adds the most recent blocks, stopping once the first existing link is found\n"
 				+ "-h: fetches historical market data, stopping once the first existing link is found");
 	}
 }
