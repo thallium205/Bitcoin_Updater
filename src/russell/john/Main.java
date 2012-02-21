@@ -9,7 +9,7 @@ public class Main
 
 	/**
 	 * @param args
-	 *            -b: fetches the blockchain -i: iterates through the entire
+	 *            -i: iterates through the entire
 	 *            blockchain. adding missing links -c: only adds the most recent
 	 *            blocks, stopping once the first existing link is found
 	 *            -h: fetches historical market data -b: builds database
@@ -139,9 +139,9 @@ public class Main
 
 	private static void errorMessage()
 	{
-		log.severe("Usage:\n" + "[jdbc], [user], [pass], [schema_filepath (optional)] params..."
-				+ "\t -i: iterates through the entire blockchain. adding missing links along the way\n"
-				+ "\t -c: only adds the most recent blocks, stopping once the first existing link is found\n"
+		log.severe("Usage:\n" + "[jdbc], [user], [pass], [schema_filepath (optional)] params...\n"
+				+ "-i: iterates through the entire blockchain. adding missing links along the way\n"
+				+ "-c: only adds the most recent blocks, stopping once the first existing link is found\n"
 				+ "-h: fetches historical market data, stopping once the first existing link is found\n" +
 				"-b: builds the database schema. Must pass schema filepath to work.");
 	}
