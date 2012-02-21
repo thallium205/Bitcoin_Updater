@@ -6,7 +6,7 @@ Usage: [jdbc], [user], [pass], [schema_filepath (optional)] params...
 -h: fetches historical market data, stopping once the first existing link is found
 -b: builds the database schema. Must pass schema filepath to work.
 
-First time usage:
+First time usage: 
 1) Create an empty MYSQL database, and change the jdbc path as necessary.
 2) java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, schema.txt, -b
 
