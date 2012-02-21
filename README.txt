@@ -1,11 +1,14 @@
+## Summary
 This application can download the entire bitcoin blockchain, and keep it updated, using blockexplorer.com API.  This application can also download all the market data from the API of bitcoincharts.com and keep it up to date as well.  It will store the information into a (somewhat) optimized MYSQL database.
 
-Usage: [jdbc], [user], [pass], [schema_filepath (optional)] params...
+## Usage
+[jdbc], [user], [pass], [schema_filepath (optional)] params...
 -i: iterates through the entire blockchain. adding missing links along the way
 -c: only adds the most recent blocks, stopping once the first existing link is found
 -h: fetches historical market data, stopping once the first existing link is found
 -b: builds the database schema. Must pass schema filepath to work.
 
+## Examples
 First time usage: 
 1) Create an empty MYSQL database, and change the jdbc path as necessary.
 2) java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, schema.txt, -b
@@ -20,4 +23,5 @@ java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, pas
 To update/build the historical market data.  If the historical market data already exists, the program will terminate and go to the next market.
 java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, -h
 
-Images ![Schema](/schema/schema.png)
+##Schema
+<img src="https://github.com/thallium205/Bitcoin_Updater/raw/master/schema/schema.png"/>
