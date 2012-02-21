@@ -19,3 +19,5 @@ java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, pas
 
 To update/build the historical market data.  If the historical market data already exists, the program will terminate and go to the next market.
 java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, -h
+
+Images ![Schema](/schema/schema.png)
