@@ -32,13 +32,25 @@ public class Main
 			return;
 		}
 
-		// Grab arguments		
+		// Grab arguments	
+		try
+		{
 		jdbc = args[0];
 		user = args[1];
 		pass = args[2];
-		schemaFilePath = args[3];
 		
-		for (int i = 4; i < args.length; i++)
+		if (args.length > 3)
+			schemaFilePath = args[3];
+		}
+		
+		catch (Exception e)
+		{
+			log.severe(e.getMessage());
+			errorMessage();
+			return;
+		}
+		
+		for (int i = 3; i < args.length; i++)
 		{
 			try
 			{
@@ -75,7 +87,7 @@ public class Main
 		}
 		
 		// Instantiate database object
-		Database db;
+		Database db = null;
 		try
 		{
 			db = new Database(jdbc, user, pass);
