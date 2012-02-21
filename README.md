@@ -14,10 +14,10 @@ First time usage:
 2) java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, schema.txt, -b
 
 Usage examples:
-To build the blockchain from scratch.  If the block already exists in the database, it will skip it and continue.  You can think of this option as a kind of consistency checker.
+To recursively build the blockchain from scratch.  If the block already exists in the database, it will skip it and continue.  You can think of this option as a kind of consistency checker.
 java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, -i
 
-To update the blockchain.  If the block already exists in the database, the program will terminate
+To recursively update the blockchain.  If the block already exists in the database, the program will terminate
 java -jar Bitcoin_Updater.jar jdbc:mysql://localhost:3306/Bitcoin, username, password, -c
 
 To update/build the historical market data.  If the historical market data already exists, the program will terminate and go to the next market.
