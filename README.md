@@ -1,5 +1,5 @@
 ## Summary
-This application can download the entire bitcoin blockchain, and keep it updated, using blockexplorer.com API.  This application can also download all the market data from the API of bitcoincharts.com and keep it up to date as well.  It will store the information into a (somewhat) optimized MYSQL database.
+This application can download the entire bitcoin blockchain, and keep it updated, using blockexplorer.com API.  It can also download all the market data from the API of bitcoincharts.com and keep it up to date as well.  It will store the information into a (somewhat) optimized MYSQL database.
 
 ## Usage
 [jdbc], [user], [pass], [schema_filepath (optional)] params...
